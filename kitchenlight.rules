@@ -1,0 +1,18 @@
+rule "Turn Kitchenlight On if Someone is home and it is night"
+when
+	Item pilightKitchenDesiredState changed from OFF to ON or
+	Item presenceSomeone changed from OFF to ON
+then
+	if (presenceSomeOne.state == ON && pilightKitchenDesiredState.state == ON) {
+		pilightWallSocketKitchenWorktopProxy.sendCommand(ON)
+		pilightWallSocketKitchenStoveProxy.sendCommand(ON)
+	}
+end
+
+rule "Turn Kitchenlight Off if nobody is home or it is day"
+when
+	Item pilightKitchenDesiredState changed from ON to OFF
+then
+	pilightWallSocketKitchenWorktopProxy.sendCommand(ON)
+	pilightWallSocketKitchenStoveProxy.sendCommand(ON)
+end
